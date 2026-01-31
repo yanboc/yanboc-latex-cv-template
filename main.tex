@@ -1,247 +1,316 @@
-\include{settings}
+% LaTeX 中文简历模板（多字体&主题色/本硕博通用）
+% Github: https://github.com/yanboch/LaTeX-Chinese-CV-Template
+% 
+% 使用方法（具体参见 README.md）：
+% 1. 使用 XeLaTeX 编译
+% 2. 请在 config.tex 中配置个性化内容
+% 3. 模块信息请在 includefiles 文件夹中编辑
+% 
+% 致谢: 
+% - 本模板的大框架基于
+%   1. [北师大中文CV模板](https://github.com/LeyuDame/BNUCV)
+%   2. [西北工业大学中文CV模板](https://www.overleaf.com/latex/templates/npu-cv/mncqzxhvfzrx)
 
-% 填写个人信息
-% 学院
-\newcommand{\school}{拓新研究院 | School of Tuoxin} 
+\documentclass[11pt]{article}
+\usepackage{xltxtra}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\usepackage{bookmark}
+\urlstyle{tt}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc, backgrounds}
+\usepackage{xeCJK}
+\usepackage{relsize}
+\usepackage{xspace}
+\usepackage{fontawesome5}   
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{fancybox}
+\usepackage{float}
+\usepackage{xifthen}
 
-% 联系方式
-\newcommand{\contact}{
-    % 根据个人喜好选择字号
-    % \small              % 小
-    % \footnotesize       % 更小
-    \scriptsize         % 再小一号
-    \textcolor{white}{
-        % 邮箱
-        \faEnvelope \quad \href{mailto:youremail@whu.edu.com}{youremail@whu.edu.com}
-        \hspace{4em}
-        % 手机号
-        \faPhone \quad  130-6666-0000
-        % 别的联系方式，如微信、GitHub等
-        % \hspace{4em}
-        % \faGithub \quad \href{https://github.com/xxxx}{https://github.com/xxxx}
-    }
+% 注入配置文件
+\input{config.tex}
+
+% 模块标题格式
+\newcommand{\moduleTitle}[2]{
+    \vspace{1em}
+    {\LARGE\bfseries
+    {\color{\themeColor}{#1}} \hspace{0.5em} {#2}} \vspace{-0.6em}
+    \par
+    \vspace{0.5em}
+    {\color{\themeColor}\rule{\textwidth}{0.8pt}}
+    \par
+}
+\newcommand{\nextPage}{\newpage \quad \par \vspace{0.5em}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 模板设置
+% 参考 https://github.com/LeyuDame/BNUCV/tree/main
+
+% 取消中文字符与数字之间的间隔
+\setlength{\parindent}{0pt} % 取消全局段落缩进
+\pagenumbering{gobble} % 取消页码显示
+\setlist[itemize]{topsep=0em, leftmargin=*} % 增加了itemize顶部间距
+\setlist[enumerate]{topsep=0em, leftmargin=*} % 增加了enumerate顶部间距
+\setlist[description]{topsep=0em, leftmargin=*} % 增加了description顶部间距
+
+% 行间距与字间距
+\renewcommand{\arraystretch}{1.2} % 1.2倍表格行间距
+\linespread{1.2} % 1.2倍正文行间距
+\renewcommand{\CJKglue}{\hskip 0.05em} % 中文字符间距
+
+% 页面设置
+\usepackage[a4paper, % 纸张大小为A4
+    left=1.2cm, right=1.2cm, top=1.5cm, bottom=1cm, % 页边距
+    headsep=14pt, footskip=14pt % 页眉页脚间距
+]{geometry}
+
+% 页眉页脚设置
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % 清空默认页眉页脚
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\pureColorHeader}{
+    \node[anchor=north, inner sep=0pt](header) at (current page.north){
+        \tikz[inner sep=0pt]{\fill[\themeColor] (0,0) rectangle (\paperwidth, 0.072\paperwidth);}
+        };
+}
+\newcommand{\pureColorFooter}{
+    \node[anchor=south, inner sep=0pt](footer) at (current page.south){
+        \tikz[inner sep=0pt]{\fill[\themeColor] (0,0) rectangle (\paperwidth, 0.042\paperwidth);}
+    };
 }
 
-
-
-%%%%%%%%%%%%%%%%%%%%
-% 简历正文
-%%%%%%%%%%%%%%%%%%%%
-\begin{document}
-% 如果有多页简历，请把页眉页脚和背景复制粘贴到第二页的内容之前
-    % 页眉：校标组合+学院名
+% 页眉（校徽（左）+院系名（右））
+\fancyhead[C]{
     \begin{tikzpicture}[remember picture, overlay]
+        \ifthenelse{\boolean{\useDefaultTheme}}{
         \node[anchor=north, inner sep=0pt](header) at (current page.north){
             \includegraphics[width=\paperwidth]{images/header.png}
         };
-        \node[anchor=west](school_logo) at (header.west){
-            \hspace{0.5cm}
-            \includegraphics[width=0.15\textwidth]{images/whu_logo_1.png}
-        };
-        \node[anchor=east](school_name) at(header.east){
-            \textcolor{white}{\textbf{\school}}
+        }{\pureColorHeader}
+        % 插入学校logo（默认插入，需要添加学校logo的图片并在config.tex中配置\schoolLogo路径）
+        \ifthenelse{\boolean{\useSchoolLogo}}{
+            \node[anchor=west](school_logo) at (header.west){
+                    \hspace{0.5cm}
+                    \includegraphics[width=\schoolLogoWidth\textwidth]{\schoolLogo}
+                };
+
+        }{}
+        % 插入学校名称（默认不插入，使用学校logo中的校名）
+        \ifthenelse{\boolean{\useSchoolName}}{
+            \node[anchor=west](school_name_text) at (header.west){
+                \hspace{0.5cm}
+                \textcolor{white}{\textbf{\schoolNameCH}}
+            };}{}
+        \node[anchor=east](department_name_text) at(header.east){
+            \textcolor{white}{\textbf{\departmentNameCH | \departmentNameEN}}
             \hspace{0.5cm}
         };
     \end{tikzpicture}
     \vspace{-3.5em}
+}
 
-    % 页脚，联系方式
+% % 页脚，联系方式
+\fancyfoot[C]{
     \begin{tikzpicture}[remember picture, overlay]
+        \ifthenelse{\boolean{\useDefaultTheme}}{
         \node[anchor=south, inner sep=0pt](footer) at (current page.south){
             \includegraphics[width=\paperwidth]{images/footer.png}
         };
-        % 联系方式
+        }{\pureColorFooter}
         \node[anchor=center] at(footer.center){\contact};
     \end{tikzpicture}
+}
 
-    % 背景
+\thispagestyle{fancy}
+
+% 自定义字体，详见 README.md -> 自定义字体
+\ifthenelse{\boolean{\useDefaultFont}}{}
+{
+    % 英文字体
+    \setmainfont[
+        Path={\fontPath},
+        Extension={\fontFileTypeEN},
+        BoldFont={\fontBoldFontEN},
+    ]{\customFontFamilyEN}
+    % 中文字体
+    \setCJKmainfont[
+        Path={\fontPath},
+        Extension={\fontFileTypeCH},
+        BoldFont={\fontBoldFontCH},
+    ]{\customFontFamilyCH}
+}
+%%%%%%%%%%%%%%%%%%%%
+% 个人信息
+%%%%%%%%%%%%%%%%%%%%
+% 联系方式
+\newcommand{\contact}{
+    % 根据个人喜好选择页脚的字号
+    % \small % 小
+    % \footnotesize % 更小
+    \scriptsize % 再小一号
+
+    \textcolor{white}{
+        % 邮箱
+        \ifthenelse{\boolean{\needEmail}}{
+            \faEnvelope \quad \href{mailto:\yourEmail}{\yourEmail}
+        }{} 
+        \hspace{4em}
+        % 手机号
+        \ifthenelse{ \boolean{\needPhone}}{
+            \faPhone \quad \yourPhone
+        }{}
+        \hspace{4em}
+        % GitHub
+        \ifthenelse{ \boolean{\needGithub}}{
+            \faGithub \quad \href{https://github.com/\yourGithub}{\yourGithub}
+        }{}
+        \hspace{4em}
+        % 微信
+        \ifthenelse{ \boolean{\needWechat}}{
+            \faWeixin \quad \yourWechat
+        }{}
+    }
+}
+
+% 水印
+\newcommand{\watermark}{
     \begin{tikzpicture}[remember picture, overlay]
-        \node[opacity=0.05] at(current page.center){
-            \includegraphics[width=0.7\paperwidth, keepaspectratio]{images/whu_logo_big.png}
+        \node[opacity=\watermarkOpacity] at(current page.center){
+            \includegraphics[width=\watermarkSize\paperwidth, keepaspectratio]{\watermarkImage}
         };
     \end{tikzpicture}
+}
 
-    % 个人信息
-    \begin{figure}[h]
-        % 左半边，信息，比例占行宽82%，可以自己调
-        \begin{minipage}{0.82\textwidth}
-            \section{\makebox[\widthof{\faAddressCard}][c]{\color{WHU_Blue}{\faAddressCard}}\quad 个人信息}
-            \begin{tabularx}{\linewidth}{p{\widthof{出生日期:}}Xp{\widthof{政治面貌:}}X}
-                姓\ \ \ \ \ \ \ \ 名: & 你的名字 & 
-                性\ \ \ \ \ \ \ \ 别: & 你的性别  \\
-                出生年月: & 你的出生年月 & 
-                政治面貌: & 你的政治面貌 \\
-                %% 想多加几行的话，就按上面的格式自行补充
-                %% 想加粗的话\textbf{}
-                %% 想多加几列的话，把\begin{tabularx}{\textwidth}{这里}的内容改一下，可以自己搜一下tabularx怎么用，也可以问gpt/文心一言/讯飞。
-            \end{tabularx}
-        \end{minipage}
-    \hspace{2em}
-    % 右半边，照片，比例占行宽12%，可以自己调
-    % images/avatar.png 替换成你证件照的路径。
-    \begin{minipage}{0.12\textwidth}
-        \setlength{\fboxsep}{0pt}
-        \doublebox{\includegraphics[width=\linewidth]{images/avatar.png}}
-    \end{minipage}
-    \end{figure}
-    \vspace{-1em}
+\begin{document}
+\ifthenelse{\boolean{\needWatermark}}{\watermark}{}
 
-    % 教育背景
-    % \faGraduationCap这类\fa开头的都是font awesome里的logo，想换成其他logo的话，可以看一下附带的fontawsome.pdf，自行替换。
-    \section{\makebox[\widthof{\faGraduationCap}][c]{\color{WHU_Blue}{\faGraduationCap}}\quad 教育背景}
+% 个人信息
+\vspace{-1.2em}
+\newcommand{\infoGap}{\ \ \ \ \ \ \ \ }
+\ifthenelse{\boolean{\needPersonalInformation}}{
+    \ifthenelse{\boolean{\needAvatar}}{
+        \begin{figure}[h]
+            \begin{minipage}{\PersonalInformationWidth\textwidth}
+                \moduleTitle{\PersonalInformationIcon}{\PersonalInformationTitle}
+                \begin{tabularx}{\linewidth}{p{\widthof{四个汉字:}}Xp{\widthof{四个汉字:}}X}
+                    \input{includefiles/personal_information.tex}
+                \end{tabularx}
+            \end{minipage}
+            \hspace{2em}
+            \begin{minipage}{\AvatarWidth\textwidth}
+                \setlength{\fboxsep}{0pt}
+                \doublebox{\includegraphics[width=0.99\textwidth]{\AvatarImage}}
+            \end{minipage}
+        \end{figure}
+    }{
+        \begin{figure}[h]
+                \moduleTitle{\PersonalInformationIcon}{\PersonalInformationTitle}
+                \begin{tabularx}{\linewidth}{p{\widthof{四个汉字:}}Xp{\widthof{四个汉字:}}X}
+                    \input{includefiles/personal_information.tex}
+                \end{tabularx}
+            \hspace{2em}
+        \end{figure}
+    }
+}
 
-    % 教育背景（本科生）
-    % \vspace{-1em}
-    % \begin{table}[h!]
-    %     \begin{tabularx}{\textwidth}{XXp{\widthof{2021年 -- 预计2025年7月毕业}}}
-    %         武汉大学 & 电子信息工程 & 2021年 -- 预计2025年7月毕业\\
-    %         \textbf{GPA: 4.0/4.0} & \textbf{GPA排名: 1/100} & \textbf{综测排名: 1/100} \\
-    %     \end{tabularx}
-    % \end{table}
+\vspace{-1em}
 
-    % 教育背景（研究生）
-    {\large \textbf{武汉大学}}，本科 \hfill {湖北，武汉} \\
-    \href{学院官网.whu.edu.cn}{\underline{自强学堂}}，专业：你的专业 \hfill {2000年9月-2010年6月} \\
-    {主修课程}：课程1、课程2、课程3、课程4\ 等。
+% 教育背景
+\ifthenelse{\boolean{\needEducation}}{
+    \newcommand{\addEducation}[6]{
+        {\large \textbf{#1}}，{#2} \hfill {#3} \\
+        \underline{#4}，专业：{#5} \hfill {#6}
+        \par \vspace{0.8em}
+    }
+    \newcommand{\addCourse}[1]{\vspace{-0.5em} #1 \par \vspace{0.8em}}
+    \newcommand{\addEducationDescription}[1]{\vspace{-0.5em} #1 \par \vspace{0.8em}}
+    \moduleTitle{\EducationIcon}{\EducationTitle}
+    \input{includefiles/education.tex}
+    \par
+}{}
 
-    \vspace{0.5em}
-    {\large \textbf{武汉大学}}，硕士 \hfill {湖北，武汉} \\
-    {{求是学院}}，专业：基础数学 \hfill {2010年9月-2020年6月} \\
-    \textbf{主修课程}：课程1、课程2、课程3、课程4\ 等。
+% 科研成果
+\ifthenelse{\boolean{\needPublication}}{
+    \newcommand{\addPublication}[5]{
+        #1\\
+        #2 \hfill 
+        \textbf{#3}（#4）#5 
+        \par \vspace{0.8em}
+    }
+    \newcommand{\addPublicationDescription}[1]{\par\vspace{-0.5em}#1\vspace{0.8em}}
+    \moduleTitle{\PublicationIcon}{\PublicationTitle}
+    \input{includefiles/publication.tex}
+    \par
+}{}
 
-    \vspace{0.5em}
-    {\large \textbf{武汉大学}}，博士 \hfill {湖北，武汉} \\
-    {{拓新研究院}}，导师：\href{导师的个人主页.site}{导师名字}\ 导师职称 \hfill {2020年9月-至今} \\
-    \textbf{研究方向}：方向1、方向2、方向3、方向4\ 等。
+% 项目经历\科研经历\项目与教学（标题请根据需要修改）
+\ifthenelse{\boolean{\needProjects}}{
+    \newcommand{\addProject}[4]{
+        {\large{\textbf{#1}}} \hfill {#2}\\
+        \textbf{#3} \hfill #4
+        \par \vspace{0.8em}
+    }
+    \newcommand{\addProjectDescription}[1]{\par\vspace{-0.5em}#1\par\vspace{0.8em}}
+    \moduleTitle{\ProjectsIcon}{\ProjectsTitle} 
+    \input{includefiles/projects.tex}
+    \par
+}{}
 
-    % 教育背景
-    \section{\makebox[\widthof{\faGraduationCap}][c]{\color{WHU_Blue}{\faGraduationCap}}\quad 科研成果}
-
-
-    % 科研著作（研究生）
-    This is One of Your Paper Published in Conference A. \\
-    \textbf{Mingzi Nide}, Daoshi Nide. \hfill 
-    发表于 \textbf{Conference A}（CCF-A类会议） 
-
-    \vspace{0.5em}
-    This is Another Paper. \\
-    \textbf{Mingzi Nide}, Shidi Nide, Daoshi Nide. \hfill 
-    发表于 \textbf{Conference B} （CCF-A类会议）
-
-    \vspace{0.5em}
-    This is A Journal Paper.\\
-    \textbf{Mingzi Nide}, Shixiong Nide, Daoshi Nide. \hfill 
-    发表于 \textbf{Journal C} （SCI-1区）
-
-    % 项目经历\科研经历\项目与教学（标题请根据需要修改）
-    \section{\makebox[\widthof{\faChalkboardTeacher}][c]{\color{WHU_Blue}{\faChalkboardTeacher}}\quad 项目与教学}
-    \vspace{0.5em}
-    {\large{\textbf{项目名称}}} \hfill {横向/纵向项目-已完结/进行中}\\
-    \textbf{你在项目中扮演的角色} \hfill 2020年9月至2021年9月\\
-    项目简介。
-
-    \vspace{1em}
-    {\large{\textbf{某某主题讨论班}}}，主讲/参与 \hfill {2020年夏季}\\
-    主要内容：内容1，内容2，内容3\ 等。
-    
-    \vspace{1em}
-    {\large{\textbf{课程名称}}}，助教 \hfill {2021年夏季}\\
-    主要内容：内容1，内容2，内容3\ 等。
-
-    % 技能特长（标题根据个人需求修改）
-    \section{\makebox[\widthof{\faWrench}][c]{\color{WHU_Blue}{\faWrench}}\quad 技能}
-    \vspace{0.5em}
+\ifthenelse{\boolean{\needSkills}}{
+    \newcommand{\addSkill}[1]{\item #1}
+    \moduleTitle{\SkillsIcon}{\SkillsTitle}
     \begin{itemize}
-        \item 英语：六级800分、托福200分；
-        \item 编程：Python, R, MATLAB, C.
+        \input{includefiles/skills.tex}
     \end{itemize}
-    
-    % \newpage
-    % 如有需要，再加一页。可以写荣誉、竞赛等。 
+    \par
+}{}
 
-    % 页眉页脚不要删。
-    % % 页眉：校标组合+学院名
-    % \begin{tikzpicture}[remember picture, overlay]
-    %     \node[anchor=north, inner sep=0pt](header) at (current page.north){
-    %         \includegraphics[width=\paperwidth]{images/header.png}
-    %     };
-    %     \node[anchor=west](school_logo) at (header.west){
-    %         \hspace{0.5cm}
-    %         \includegraphics[width=0.15\textwidth]{images/whu_logo_1.png}
-    %     };
-    %     \node[anchor=east](school_name) at(header.east){
-    %         \textcolor{white}{\textbf{\school}}
-    %         \hspace{0.5cm}
-    %     };
-    % \end{tikzpicture}
-    % \vspace{-4em}
-    
-    % % 页脚，联系方式
-    % \begin{tikzpicture}[remember picture, overlay]
-    %     \node[anchor = south, inner sep=0pt] at (current page.south){
-    %         \includegraphics[width=\paperwidth]{images/footer.png}
-    %     };
-    %     % 联系方式
-    %     \node[anchor=center] at(footer.center){\contact};
-    % \end{tikzpicture}
-    
-    % % 背景
-    % \begin{tikzpicture}[remember picture, overlay]
-    %     \node[opacity=0.1] at(current page.center){
-    %         \includegraphics[width=0.7\paperwidth, keepaspectratio]{images/whu_logo_big.png}
-    %     };
-    % \end{tikzpicture}
+% 竞赛经历
+\ifthenelse{\boolean{\needCompetitions}}{
+    \moduleTitle{\CompetitionsIcon}{\CompetitionsTitle}
+    \newcommand{\addCompetition}[4]{
+        \textbf{#1} & #2 & #3 & #4 \\
+    }
+    \begin{table}[h!]
+        \begin{tabularx}{\textwidth}{Xp{\widthof{xxxxxxxxxx}}p{\widthof{xxxxxxxxxxxxxxx}}p{\widthof{xxxxxxxxxxx}}}
+            \input{includefiles/competitions.tex}
+        \end{tabularx}
+    \end{table}
+    \par \vspace{-2em}
+}{}
 
+% 所获荣誉
+\ifthenelse{\boolean{\needHonors}}{
+    \moduleTitle{\HonorsIcon}{\HonorsTitle}
+    \newcommand{\addHonor}[1]{\item #1}
+    \begin{multicols}{2}
+        \begin{itemize}
+            \input{includefiles/honor.tex}
+        \end{itemize}
+    \end{multicols}
+}{}
 
-    % % 竞赛经历
-    % \section{\makebox[\widthof{\faTrophy}][c]{\color{WHU_Blue}{\faTrophy}}\quad 竞赛经历}
-    % \vspace{-1em}
-    % \begin{table}[h!]
-    %     \begin{tabularx}{\textwidth}{Xp{\widthof{第零负责人}}p{\widthof{国家级-第100名}}p{\widthof{2030年13月}}}
-    %         \textbf{比赛1} & 第一负责人 & 国家级-第10名 & 2023年4月 \\
-    %         \textbf{比赛2} & 个人参赛 & 国家级-一等奖 & 2023年8月\\
-    %         \textbf{比赛3} & 个人参赛 & 省级-一等奖 & 2022年12月\\
-    %         % 同理，可以自己加
-    %     \end{tabularx}
-    % \end{table}
-
-    % % 技能特长
-    % \section{\makebox[\widthof{\faWrench}][c]{\color{WHU_Blue}{\faWrench}}\quad 技能特长}
-    % \vspace{0.5em}
-    % \begin{itemize}
-    %     \item 熟练使用\Cpp 、Python、Matlab编程语言。
-    %     \item 熟悉Windows与Linux端开发。
-    %     \item 熟练使用Tensorflow，Pytorch等深度学习框架。
-    %     \item 熟练掌握\Cpp 与Python环境下OpenCV与Qt应用的开发，且熟练使用Qt Creator软件。
-    %     \item 熟练使用Altium Designer与LCEDA进行封装绘制与板子设计。
-    %     \item 熟练使用Keil，Arduino IDE等集成开发软件。
-    %     \item 了解模式识别，强化学习，遗传算法，知识蒸馏等相关概念。
-    % \end{itemize}
-
-    % % 所获荣誉
-    % \section{\makebox[\widthof{\faStar}][c]{\color{WHU_Blue}{\faStar}}\quad 所获荣誉}
-    % \vspace{-1em}
-    % \begin{multicols}{2}
-    %     \begin{itemize}
-    %         \item 某年学业先进个人
-    %         \item 某年某奖学金某等奖
-    %         \item 某大使
-    %         \item 某年某奖学金某等奖
-    %         \item 某年优秀团员称号
-    %         \item 某年某称号
-    %     \end{itemize}
-    % \end{multicols}
-
-    % % 其他
-    % \section{\makebox[\widthof{\faInfo}][c]{\color{WHU_Blue}{\faInfo}}\quad 其他}
-    % \begin{itemize}
-    %     \item 英语水平-CET6级xxx分
-    %     \item 计算机几级证书
-    %     \item xx几级证书
-    %     \item 技术博客: 某网址
-    %     \item 教师资格证：xxx
-    %     \item 普通话证书：几级几等
-    %     \item 文字排版：\LaTeX
-    % \end{itemize}
+% 其他
+\ifthenelse{\boolean{\needOthers}}{
+    \moduleTitle{\OthersIcon}{\OthersTitle}
+    \newcommand{\addOther}[1]{\item #1}
+        \begin{itemize}
+            \input{includefiles/others.tex}
+        \end{itemize}
+        \par
+}{}
 
 \end{document}
