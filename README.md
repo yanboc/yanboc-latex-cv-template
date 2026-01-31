@@ -1,6 +1,6 @@
 <div align="center">
 
-# LaTeX 中文简历模板（自定义字体 & 主题色 / 本硕博通用）
+# LaTeX 中文简历模板
 
 ![Language: LaTeX](https://img.shields.io/badge/Language-LaTeX-blue) ![Subject: CV/Resume](https://img.shields.io/badge/Subject-CV%2FResume-yellowgreen) ![Author: XHS@吃鱼的虎](https://img.shields.io/badge/Author-XHS%40吃鱼的虎-ff69b4)
 
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <em>不同主题色、字体与模块的示例预览（内容为虚构）</em>
+  <em> 不同主题色、字体与模块的示例预览（内容为虚构）</em>
 </p>
 
 ## 目录
