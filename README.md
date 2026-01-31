@@ -40,7 +40,7 @@
 
 ### 填写内容
 
-主文件为 `main.tex`，日常使用**无需修改**该文件（除非要改版式或样式）。  
+主文件为 `main.tex`，日常使用**无需修改**该文件（除非要修改排版细节）。  
 个人与学校等**全局信息**、**模块开关**及**主题/字体等配置**均在 `config.tex` 中设置；**各模块正文**在 `includefiles` 目录下对应文件中填写。
 
 例如，修改教育背景请编辑 `includefiles/education.tex`，并按以下格式填写：
@@ -64,7 +64,7 @@
 | 个人信息 | `personal_information.tex` |
 | 教育背景 | `education.tex` |
 | 科研成果 | `publication.tex` |
-| 项目与实习 | `projects.tex` |
+| 项目实习 | `projects.tex` |
 | 技能特长 | `skills.tex` |
 | 竞赛经历 | `competitions.tex` |
 | 所获荣誉 | `honor.tex` |
