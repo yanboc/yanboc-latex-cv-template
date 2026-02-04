@@ -7,13 +7,20 @@
 </div>
 
 <p align="center">
-  <img src="examples/example_default.png" alt="示例图片1" width="28%" style="display:inline-block; margin-right:1%;">
-  <img src="examples/example_green.png" alt="示例图片2" width="28%" style="display:inline-block; margin-right:1%;">
-  <img src="examples/example_red.png" alt="示例图片3" width="28%" style="display:inline-block;">
+  <img src="examples/example_1_1.png" alt="示例图片1" width="28%" style="display:inline-block; margin-right:1%;">
+  <img src="examples/example_2_1.png" alt="示例图片2" width="28%" style="display:inline-block; margin-right:1%;">
+  <img src="examples/example_3_1.png" alt="示例图片3" width="28%" style="display:inline-block;">
+  <img src="examples/example_1_2.png" alt="示例图片1" width="28%" style="display:inline-block; margin-right:1%;">
+  <img src="examples/example_2_2.png" alt="示例图片2" width="28%" style="display:inline-block; margin-right:1%;">
+  <img src="examples/example_3_2.png" alt="示例图片3" width="28%" style="display:inline-block;">
 </p>
 
 <p align="center">
-  <em> 不同主题色、字体与模块的示例预览（内容为虚构）</em>
+<em>
+  不同主题色、字体与模块的示例预览。示例文档使用
+  <a href="https://github.com/max32002/swei-spring">狮尾四季春（SweiSpring）字体</a>
+  ；若使用其他字体可能因为字体大小、字重、间距等问题在最终排版效果上与示例文档略有差异。
+</em>
 </p>
 
 ## 目录
@@ -132,7 +139,7 @@
 
 ### 自定义字体
 
-默认使用系统字体。若要使用自定义字体（如狮尾四季春），请在 `config.tex` 中修改：
+本模板默认使用系统自带字体（由 LaTeX 自行决定）。若要使用自定义字体（如本模板示例所使用的狮尾四季春），请在 `config.tex` 中修改：
 
 ```tex
 \def\useDefaultFont{false}
@@ -148,6 +155,8 @@
 使用 [狮尾四季春（SweiSpring）](https://github.com/max32002/swei-spring) 时：下载字体后放入 `fonts` 目录，将常规体重命名为 `SweiSpring.ttf`（即 `\customFontFamilyCH` + `\fontFileTypeCH`），粗体重命名为 `SweiSpring Bold.ttf`（即 `\customFontFamilyCH` + `\fontFileTypeCH` + `\fontBoldFontCH`）。也可按自己的命名习惯放置，只要与上述配置一致即可。
 
 ![下载字体](examples/download_fonts.png)
+
+如需使用其他字体也可以类似地下载并配置字体文件。
 
 ### 注意事项
 

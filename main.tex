@@ -49,7 +49,10 @@
     {\color{\themeColor}\rule{\textwidth}{0.8pt}}
     \par
 }
-\newcommand{\nextPage}{\newpage \quad \par \vspace{0.5em}}
+\newcommand{\nextPage}{
+    \newpage
+    \ifthenelse{\boolean{\needWatermark}}{\watermark}{}
+    }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,7 +73,7 @@
 
 % 页面设置
 \usepackage[a4paper, % 纸张大小为A4
-    left=1.2cm, right=1.2cm, top=1.5cm, bottom=1cm, % 页边距
+    left=1.2cm, right=1.2cm, top=1.8cm, bottom=1.2cm, % 页边距
     headsep=14pt, footskip=14pt % 页眉页脚间距
 ]{geometry}
 
@@ -235,7 +238,7 @@
         \underline{#4}，专业：{#5} \hfill {#6}
         \par \vspace{0.8em}
     }
-    \newcommand{\addCourse}[1]{\vspace{-0.5em} #1 \par \vspace{0.8em}}
+    \newcommand{\addCourse}[1]{\vspace{-0.8em} #1 \par \vspace{0.8em}}
     \newcommand{\addEducationDescription}[1]{\vspace{-0.5em} #1 \par \vspace{0.8em}}
     \moduleTitle{\EducationIcon}{\EducationTitle}
     \input{includefiles/education.tex}
@@ -247,7 +250,7 @@
     \newcommand{\addPublication}[5]{
         #1\\
         #2 \hfill 
-        \textbf{#3}（#4）#5 
+        \textbf{#3}（#4）\underline{#5} 
         \par \vspace{0.8em}
     }
     \newcommand{\addPublicationDescription}[1]{\par\vspace{-0.5em}#1\vspace{0.8em}}
