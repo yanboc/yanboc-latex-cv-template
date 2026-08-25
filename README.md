@@ -1,3 +1,5 @@
+
+
 <div align="center">
 
 # LaTeX 中文简历模板
@@ -59,7 +61,7 @@
 
 \addEducation{武汉大学}{本科}{湖北，武汉}{弘毅学堂}{数学与应用数学}{2016年9月--2020年6月}
 \addCourse{主修课程：课程1、课程2、课程3、课程4等。}
-\addEducationDescription{GAP、排名、综合评价等}
+\addEducationDescription{GPA、排名、综合评价等}
 ```
 
 按注释中的参数说明填空即可。如需增删模块或调整版式，可自行修改 `main.tex` 或在 Issues 中提出。
